@@ -3,8 +3,9 @@ id: F-000
 title: Feature title
 tag: must            # must | should | wont | out-of-scope
 slice: slice-name
-status: inventoried  # inventoried | spec-ready | implementing | integrated | polished | failed
+status: inventoried  # inventoried | spec-ready | implementing | integrated | polished | failed | blocked-on-human | already-built
 deps: []             # other F-xxx ids this feature depends on
+milestone: ""        # optional: v0.1, v0.2, ... (assigned at Gate 1 for large inventories)
 ---
 
 ## Description

@@ -18,6 +18,7 @@ export type Feature = {
   slice: string;
   status: string;
   deps: string[];
+  milestone: string;
   path: string;
 };
 
@@ -50,6 +51,7 @@ export function collectFeatures(root: string): Feature[] {
           .replace(/[\[\]\s]/g, "")
           .split(",")
           .filter(Boolean),
+        milestone: (fm.milestone ?? "").replace(/^["']|["']$/g, ""),
         path: `docs/makeit/features/${file}`,
       };
     })
@@ -70,9 +72,9 @@ export function renderMarkdown(features: Feature[]): string {
 `;
   const bySlice = Map.groupBy(features, (f) => f.slice);
   for (const [slice, items] of bySlice) {
-    md += `\n## ${slice}\n\n| Id | Title | Tag | Status | Deps | Path |\n|---|---|---|---|---|---|\n`;
+    md += `\n## ${slice}\n\n| Id | Title | Tag | Status | Deps | Milestone | Path |\n|---|---|---|---|---|---|---|\n`;
     for (const f of items) {
-      md += `| ${f.id} | ${f.title} | ${f.tag} | ${f.status} | ${f.deps.join(", ") || "-"} | ${f.path} |\n`;
+      md += `| ${f.id} | ${f.title} | ${f.tag} | ${f.status} | ${f.deps.join(", ") || "-"} | ${f.milestone || "-"} | ${f.path} |\n`;
     }
   }
   return md;

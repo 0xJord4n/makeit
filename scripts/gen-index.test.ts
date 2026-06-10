@@ -59,6 +59,7 @@ describe("generate", () => {
     const md = readFileSync(join(root, "docs/makeit/FEATURES.md"), "utf8");
     expect(md).toContain("## auth");
     expect(md).toContain("## dashboard");
-    expect(md).toContain("| F-101 | Feature F-101 | must | inventoried | F-001 |");
+    expect(md).toContain("| F-101 | Feature F-101 | must | inventoried | F-001 | - |");
+    expect(json[0].milestone).toBe("");
   });
 });
