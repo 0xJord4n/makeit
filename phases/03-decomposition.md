@@ -15,10 +15,13 @@ Parallel fan-out via the `Workflow` tool. Goal: an inventory so complete that no
 | data lifecycle | full CRUD per entity, soft/hard delete, export, import, retention |
 | notifications | emails (transactional!), in-app, digests, preferences |
 | settings & admin | profile, billing-readiness, workspace settings, admin views |
-| failure modes | error screens, offline, degraded states, rate limits, validation |
-| onboarding | first-run experience, empty states, sample data, guidance |
+| failure modes | error screens/outputs, offline, degraded states, rate limits, validation |
+| onboarding & first use | first-run experience, empty states, sample data, guidance (UI) / quickstart, install path (cli, library) |
+| security & compliance | *enrolled when `compliance: true` in VISION.md* — authz matrix, audit trail, data retention/deletion duties, secrets handling, regulated-flow requirements |
 
-Each writes feature files in its own id range — no shared-file writes, no conflicts.
+Lenses adapt to the surface profiles in VISION.md (a `cli` product's "onboarding" is its install + first-command experience, not a tour). Each agent writes feature files in its own id range — no shared-file writes, no conflicts.
+
+**Human setup task detection**: every agent flags items that an agent CANNOT do — external accounts (Stripe, OAuth apps, app-store listings), domain/DNS, API keys, paid plan activations. These go to `docs/makeit/HUMAN-TASKS.md` as a checklist (task, why, blocking which features), NOT into the feature inventory. Gate 1 presents this list; the user can complete tasks anytime before the slices that need them.
 
 **Completeness critic** (loop) — after each round:
 > Compare the inventory index against comparable products (name them from interview §8 references). What is missing — a feature, a screen, an email, an admin view, a legal page? Return only NEW items.
