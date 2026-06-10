@@ -1,7 +1,7 @@
 {
   "name": "makeit",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "description": "Claude Code skill: vision to finished product through a gated, massively parallel pipeline",
   "scripts": {
     "test": "bun test",
