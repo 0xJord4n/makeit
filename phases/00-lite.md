@@ -39,7 +39,8 @@ The one place parallelism pays at this scale. Launch 2-4 checkers simultaneously
 | library | README examples executed; public API review |
 | service | logs diagnosable; restart recovery |
 
-Each checker returns findings with evidence.
+Each checker returns findings with evidence. **Model routing**: checkers run on `sonnet`
+(content/lorem-ipsum sweeps may drop to `haiku`); the build itself stays on the session model.
 
 ## Step 4 — Fix, then ONE clean re-check
 

@@ -43,6 +43,8 @@ P6  Final verification    full journeys per surface + final report
 
 Two human checkpoints. Everything else runs autonomously, with cost estimates shown before each fan-out. Mid-run vision changes go through change control (pause → impact analysis → ADR → resume), never absorbed silently.
 
+**Model routing**: fan-out agents (decomposition, specs, implementation, audits) run on Sonnet; mechanical sweeps drop to Haiku; high-leverage phases (interview, foundations, gates) stay on your session model — upgradable to Opus/Fable only through a one-time consent question at run start. No silent upgrades, ever.
+
 ## Key mechanics
 
 - **Contracts are code.** DB schema, API types, shared interfaces, and design tokens are committed and compilable before any spec is written. Inter-slice inconsistency becomes a compile error, not an integration surprise.

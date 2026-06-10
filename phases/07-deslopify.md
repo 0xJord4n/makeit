@@ -6,6 +6,9 @@ Runs right after integration — the first moment the assembled codebase is visi
 
 ## Review Fan-Out (Workflow, parallel)
 
+**Model routing**: reviewers run on `sonnet`; purely mechanical scans (convention sweeps,
+dead-import checks) may drop to `haiku` (SKILL.md Model Routing).
+
 **Common core (every stack):**
 
 | Reviewer | Hunts |

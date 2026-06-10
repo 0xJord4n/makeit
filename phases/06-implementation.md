@@ -8,6 +8,9 @@ Build the dependency graph from spec/feature frontmatter `deps`. Resolve into **
 
 ## Implementation Agents (Workflow, `isolation: 'worktree'`, one per slice)
 
+**Model routing: implementation agents run on `sonnet`** (SKILL.md Model Routing) — the spec,
+contracts, and DoD do the framing; the integration suite is the net.
+
 Prompt must contain:
 
 - Path to ITS spec + the feature files it covers (read, don't paraphrase)

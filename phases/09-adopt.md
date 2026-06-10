@@ -21,7 +21,8 @@ same conduct rules as `phases/01-interview.md`):
 
 ## 2. Extraction — artifacts from reality
 
-Parallel fan-out (Workflow):
+Parallel fan-out (Workflow). **Model routing: extraction agents run on `sonnet`**; the
+coherence audit (§3) and the user-facing decision stay on the session model:
 
 | Agent | Produces |
 |---|---|

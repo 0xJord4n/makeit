@@ -68,6 +68,36 @@ Phases 2.5, 3, 4, 4.5, and 5 fan out via the `Workflow` tool. The two gates are 
 6. **Display cost estimates at every gate** before the user approves the next fan-out.
 7. **Complete states are profile-defined.** Every spec and every DoD uses the slice's surface profile from `surfaces.md` — never assume web.
 
+## Model Routing
+
+Subagents inherit the session model by default — on an expensive session model, a fan-out of
+dozens of agents multiplies that cost for work that does not need it. Route models by the
+nature of the work, via the `model` option of `Agent` / Workflow `agent()` calls:
+
+| Work | Model | Why |
+|---|---|---|
+| Interview, gates, orchestration, change control, foundations (P1, P2, gates) | **session** — or **opus/fable with explicit user consent** (see rule 1) | High-leverage decisions — quality pays here |
+| Decomposition agents, spec writers, adversarial verifiers, implementation agents, adopt extraction (P2.5, P3, P4, P-adopt) | **sonnet** | High volume, tightly framed by prompts, templates, and contracts |
+| Mechanical sweeps (lorem-ipsum/content checks, link checks, convention scans) | **haiku** | Checklist work, no deep reasoning |
+| Deslopify reviewers, polish auditors (P4.5, P5) | **sonnet** | Lens diversity matters more than per-agent power |
+
+**Three hard rules:**
+
+1. **No silent upgrades — consent gate at run start.** If the session model is below
+   opus-class, ask ONCE at the start of the run: "the foundation phases (interview,
+   architecture, contracts, gates) benefit from a stronger model — upgrade those phases to
+   opus/fable? (estimated cost delta: ~X)". Record the answer as an ADR entry; it holds for
+   the whole run. "This verification deserves a stronger model" mid-run is NOT your call —
+   the user sets the budget. Downward routing (sonnet/haiku for fan-outs) never needs consent.
+2. **Routing is a default, not a mandate.** If the user explicitly set a model policy for the
+   run, it wins. Display the routing in the cost estimate at each gate.
+3. **Thinking depth rides in the prompt, not in a parameter.** There is no per-subagent
+   thinking knob — adaptive thinking scales with task complexity AND with prompt cues. So:
+   high-leverage agent prompts include an explicit depth cue ("reason deeply; consider
+   alternatives and what could make this wrong before concluding"); mechanical-sweep prompts
+   include the opposite ("be direct; checklist only, no deliberation"). Model choice remains
+   the dominant lever; the prompt cue is the fine adjustment.
+
 ## Change Control — vision changes mid-run
 
 If the user changes scope/vision after a gate: **pause the running phase** → impact analysis from the index (which features, specs, slices are invalidated) → present a digest (affected items + re-work cost) → user approves → ADR entry + artifacts updated + index regenerated → resume. Never absorb a vision change silently into a running wave.

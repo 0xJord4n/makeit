@@ -1,6 +1,9 @@
 # Phase 3 — Parallel Specs + Adversarial Verification
 
-Workflow fan-out: one writer agent per slice, then adversarial cross-verification per spec. Specs are written against frozen contracts — that is what makes parallel writing safe.
+Workflow fan-out: one writer agent per slice, then adversarial cross-verification per spec.
+**Model routing: writers and verifiers run on `sonnet`** (SKILL.md Model Routing; never above
+the session ceiling). Specs are written against frozen contracts — that is what makes parallel
+writing safe.
 
 ## Spec Writer Agents (parallel, one per slice)
 

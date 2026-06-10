@@ -18,6 +18,9 @@ Per surface profile (from VISION.md):
 
 ## Audit Fan-Out (parallel; each writes findings with evidence)
 
+**Model routing**: auditors run on `sonnet`; mechanical sweeps (lorem-ipsum/content checks,
+link checks) may drop to `haiku` (SKILL.md Model Routing). Fix agents: `sonnet`.
+
 Select the audit column of the slice's profile in `surfaces.md`:
 
 | Profile | Audits (skill if installed, else generic checklist agent per surfaces.md rule 5) |
