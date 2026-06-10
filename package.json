@@ -6,7 +6,10 @@
   "scripts": {
     "test": "bun test",
     "gen-index": "bun scripts/gen-index.ts",
-    "check-workflows": "bun scripts/check-workflows.ts workflows/*.js"
+    "check-workflows": "bun scripts/check-workflows.ts workflows/*.js",
+    "state": "bun scripts/state.ts",
+    "set-status": "bun scripts/set-status.ts",
+    "new-feature": "bun scripts/new-feature.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

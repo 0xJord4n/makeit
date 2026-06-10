@@ -209,6 +209,7 @@ The following moved from "out of scope" or "web-only" into the skill:
 - **Seed data + test accounts** in foundations — the polish loop audits a populated, authenticated app.
 - **Security & compliance** — interview flag enrolls a cross-cutting decomposition agent, a spec lens, and a final security pass.
 - **Model routing** — fan-out agents run on sonnet (mechanical sweeps on haiku); foundations/gates stay on the session model, upgradable to opus/fable only via a one-time consent question at run start (recorded as ADR). Thinking depth is encoded as prompt cues (no per-subagent thinking parameter exists); model choice is the dominant lever.
+- **"The LLM decides, the code mutates"** — every structured artifact changes only through a validated script: `state.ts` (run state: phases, gates, consent — enum-checked), `new-feature.ts` (scaffolds valid frontmatter, refuses duplicates), `set-status.ts` (enum-checked flips + index regeneration), `gen-index.ts` (derived indexes + graph validation). The LLM owns prose and code; structure is unforgeable.
 
 ## 8b. Still out of scope
 

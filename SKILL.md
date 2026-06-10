@@ -80,7 +80,7 @@ Phases 2.5, 3, 4, 4.5, and 5 fan out via the `Workflow` tool. The two gates are 
 2. **Reference, never paraphrase.** Downstream artifacts point to upstream paths. Copying content forward is how loss happens.
 3. **Discovery expands, gates contract.** Agents may propose features; only the human cuts scope, at the gates.
 4. **Contracts are read-only during implementation.** An agent that believes a contract is wrong stops and reports. Silent contract edits in a worktree are forbidden.
-5. **The index is generated.** Never hand-edit `FEATURES.md` or `features-index.json`; edit feature frontmatter, then regenerate.
+5. **The LLM decides, the code mutates.** Every structured artifact changes ONLY through its script: `state.json` via `scripts/state.ts` (init / set-phase / approve-gate / consent / set-milestone — never hand-write the JSON), feature creation via `scripts/new-feature.ts` (then fill the prose with Edit), status flips via `scripts/set-status.ts`, indexes via `scripts/gen-index.ts` (never hand-edit `FEATURES.md` / `features-index.json`). Prose (vision, specs, feature bodies, code) is yours; structure is the scripts'.
 6. **Display cost estimates at every gate** before the user approves the next fan-out.
 7. **Complete states are profile-defined.** Every spec and every DoD uses the slice's surface profile from `surfaces.md` — never assume web.
 

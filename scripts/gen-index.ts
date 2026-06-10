@@ -80,8 +80,8 @@ export function renderMarkdown(features: Feature[]): string {
   return md;
 }
 
-const VALID_TAGS = new Set(["must", "should", "wont", "out-of-scope"]);
-const VALID_STATUSES = new Set([
+export const VALID_TAGS = new Set(["must", "should", "wont", "out-of-scope"]);
+export const VALID_STATUSES = new Set([
   "inventoried",
   "spec-ready",
   "implementing",

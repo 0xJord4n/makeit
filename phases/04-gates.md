@@ -18,7 +18,7 @@ Then a structured question (AskUserQuestion): **Approve / Modify / Cut**. For Mo
 
 **Milestone split (large inventories)**: if the in-scope must/should count exceeds ~60 features, propose splitting into milestones (v0.1, v0.2, …) at this gate. The user assigns milestones; record them in feature frontmatter (`milestone:`). Each milestone then runs P3 → P6 as its own pass over the same `docs/makeit/` — the index accumulates, nothing is re-interviewed.
 
-Record approval twice, in the same step: the ADR entry in VISION.md ("Gate 1 approved <date>: N features in scope, M cut, milestones: …") AND `state.json` (`gates.gate1 = {approved, inScope, cut}`, `phase` advanced). state.json is what dispatch reads; the ADR is the story.
+Record approval twice, in the same step: the ADR entry in VISION.md ("Gate 1 approved <date>: N features in scope, M cut, milestones: …") AND `bun <skill>/scripts/state.ts approve-gate 1 --in-scope N --cut M` (advances the phase; routes to the prototype checkpoint automatically when designFirst). state.json is what dispatch reads; the ADR is the story.
 
 ## Optional — Prototype Checkpoint (design-first products)
 
@@ -37,7 +37,7 @@ For each open point, ask **one precise closed question** ("Option A: poll every 
 
 Answers are written into the relevant spec + an ADR entry. Re-run the failed verification lens on amended specs. When the table is all green → explicit approval → Phase 4 starts and runs to the final report without interrupting the user.
 
-Record approval twice: the ADR entry ("Gate 2 approved <date>: K slices, wave plan: …") AND `state.json` (`gates.gate2`, `phase: "P4"`).
+Record approval twice: the ADR entry ("Gate 2 approved <date>: K slices, wave plan: …") AND `bun <skill>/scripts/state.ts approve-gate 2 --slices K`.
 
 ## Change Control — vision changes between or during phases
 

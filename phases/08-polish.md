@@ -60,7 +60,8 @@ two clean passes.
    - **Remaining debt, explicit** — what a reviewer should look at first
    - How to run, test, deploy
 
-Flip final statuses, regenerate the index one last time, set `state.json` phase to `done`.
+Flip final statuses via `set-status.ts <F-id> polished` (which regenerates the index), then
+`state.ts set-phase done`.
 The index IS the project's state of record. If milestones were defined, report against the
 current milestone only and name what the next milestone starts with.
 

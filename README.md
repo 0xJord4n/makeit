@@ -84,8 +84,10 @@ phases/           one guide per pipeline phase, incl. lite + adopt modes
 workflows/        canned Workflow scripts for every fan-out phase (deterministic
                   orchestration — invoked via scriptPath + args, never re-authored)
 templates/        feature, spec, and vision artifact templates
-scripts/          index generator with graph validation (enums, deps, cycles)
-                  + workflow-script validator + tests
+scripts/          structured-mutation CLIs ("the LLM decides, the code mutates"):
+                  state.ts (run state), new-feature.ts (scaffolding), set-status.ts
+                  (status flips), gen-index.ts (derived indexes + graph validation),
+                  check-workflows.ts (workflow-script validator) - all tested
 tests/            pressure-scenario regression suite for the skill itself
 ```
 

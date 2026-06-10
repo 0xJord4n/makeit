@@ -15,6 +15,7 @@ export const meta = {
  *   surfacesPath: string,
  *   designTokensNote: string,                // "" for non-UI surfaces
  *   testCommand, typecheckCommand: string,
+ *   setStatusCmd: "bun <skill>/scripts/set-status.ts",
  *   waves: [ [ { slice, profile, specPath, featurePaths: string[] } ] ],
  *   model: "sonnet"
  * }
@@ -95,7 +96,7 @@ for (let w = 0; w < args.waves.length && !contractBlocked; w++) {
       continue
     }
     const integ = await agent(
-      `Integrate branch "${r.branch}" (slice ${r.slice}) into the main tree. Merge it, then run the FULL suite (${args.testCommand}) and ${args.typecheckCommand}. Trivial conflicts: resolve. Substantive conflicts or a red suite you cannot trivially fix: do NOT force it - return conflict-escalated or suite-red with the exact failure. On success, flip the slice's feature statuses to integrated in their frontmatter.`,
+      `Integrate branch "${r.branch}" (slice ${r.slice}) into the main tree. Merge it, then run the FULL suite (${args.testCommand}) and ${args.typecheckCommand}. Trivial conflicts: resolve. Substantive conflicts or a red suite you cannot trivially fix: do NOT force it - return conflict-escalated or suite-red with the exact failure. On success, flip each of the slice's features with \`${args.setStatusCmd} <F-id> integrated\` (never hand-edit frontmatter).`,
       { label: `integrate:${r.slice}`, phase: 'Integrate', model: MODEL, schema: INTEGRATION },
     )
     results.push({ ...r, integration: integ ?? { status: 'conflict-escalated', detail: 'integration agent died' } })

@@ -14,6 +14,7 @@ export const meta = {
  *   visionPath, architecturePath: string,
  *   contractPaths: string[],
  *   featureTemplatePath: string,            // templates/feature.md (skill repo path)
+ *   newFeatureCmd: "bun <skill>/scripts/new-feature.ts",
  *   genIndexCmd: "bun <skill>/scripts/gen-index.ts",
  *   jobs: [{ name, brief }],                // jobs-to-be-done from the interview
  *   crossCutting: string[],                 // lens names per phases/03-decomposition.md
@@ -35,7 +36,7 @@ const WRITTEN = {
   additionalProperties: false,
 }
 
-const ground = `Read ${args.visionPath}, ${args.architecturePath}, the contracts (${args.contractPaths.join(', ')}), and the feature file template at ${args.featureTemplatePath}. Write feature files into ${args.docsDir}/features/ strictly following the template frontmatter. Do not arbitrate scope: tag must/should/wont with a one-line rationale; items colliding with a non-goal get tag out-of-scope citing it. Anything only a human can do (external accounts, API keys, domains, store listings) goes as a line into ${args.docsDir}/HUMAN-TASKS.md, NOT as a feature. Return the ids you wrote and any human tasks you appended.`
+const ground = `Read ${args.visionPath}, ${args.architecturePath}, the contracts (${args.contractPaths.join(', ')}), and the feature file template at ${args.featureTemplatePath}. To create each feature: run \`${args.newFeatureCmd} <F-id> --title "..." --slice <slice> --tag <tag> [--deps F-xxx,F-yyy]\` (it scaffolds valid frontmatter and refuses duplicates - NEVER author frontmatter by hand), then fill the prose sections with Edit. Do not arbitrate scope: tag must/should/wont with a one-line rationale; items colliding with a non-goal get tag out-of-scope citing it. Anything only a human can do (external accounts, API keys, domains, store listings) goes as a line into ${args.docsDir}/HUMAN-TASKS.md, NOT as a feature. Return the ids you created and any human tasks you appended.`
 
 phase('Sweep')
 const sweeps = await parallel([
