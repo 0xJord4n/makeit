@@ -1,0 +1,78 @@
+# makeit
+
+**A Claude Code skill that takes a project from raw vision to a finished, polished product — through a gated, massively parallel agent pipeline.**
+
+You give the vision. It interviews you like an uncompromising product manager, decomposes the product exhaustively, writes verified specs in parallel, implements slices in parallel git worktrees, de-slops the assembled codebase, and loops on UX polish until nothing is left to fix. You approve twice; everything else is autonomous.
+
+## Why
+
+Agent-built projects fail in three repeatable ways:
+
+| Failure | Cause | makeit's answer |
+|---|---|---|
+| **Generic specs** | One-shot PRDs fill gaps with plausible boilerplate | Mandatory PM interview — the skill never invents what you didn't say; non-goals are required |
+| **Progressive loss** | Every doc generated from another doc is lossy compression | Single source of truth, append-only, referenced by path — never paraphrased |
+| **Never finished** | Specs never name polish, so agents stop at "compiles" | 5 mandatory UX states per screen, enforced DoD, and a polish loop that only stops after 2 clean passes |
+
+Plus the slop unique to parallel agents (N worktrees reinventing the same helper) — handled by a dedicated deslopify phase that runs the moment the codebase is assembled.
+
+## Pipeline
+
+```
+/makeit "your vision in a few sentences"
+
+P1  PM Interview          8 sections, ~10-20 min, one question at a time
+P2  Foundations           VISION.md + architecture + compilable contracts
+P2.5 Decomposition        parallel fan-out + completeness critic
+🚪 GATE 1                 you approve scope (vision, contracts, feature inventory)
+P3  Specs                 parallel writers + adversarial cross-verification
+🚪 GATE 2                 you resolve open points, approve
+P4  Implementation        dependency waves, one agent per slice, isolated worktrees
+P4i Integration           sequential merges, full suite between each
+P4.5 Deslopify            semantic duplicates, stack best practices, simplify
+P5  UX Polish             design review + UX audit (your persona) + responsiveness
+                          + onboarding — loop until 2 passes with zero must-fix
+P6  Final E2E             full browser journeys + final report
+```
+
+Two human checkpoints. Everything else runs autonomously, with cost estimates shown before each fan-out.
+
+## Key mechanics
+
+- **Contracts are code.** DB schema, API types, shared interfaces, and design tokens are committed and compilable before any spec is written. Inter-slice inconsistency becomes a compile error, not an integration surprise.
+- **Index + detail files.** Every feature is a file with YAML frontmatter; `FEATURES.md` and `features-index.json` are *generated* from them. One source of truth, zero write conflicts between parallel agents, zero drift.
+- **Resume for free.** All state lives in files. Session crashed or compacted? Re-invoke `/makeit` — it reads the index and resumes at the right phase.
+- **Failure protocol.** A failing slice never blocks its wave; one retry with context, then human escalation. An agent that believes a contract is wrong must stop and report — silent contract edits are forbidden.
+
+## Install
+
+```bash
+git clone https://github.com/0xJord4n/makeit.git
+ln -s "$(pwd)/makeit" ~/.claude/skills/makeit
+```
+
+Requires [Claude Code](https://claude.com/claude-code) with the `Workflow` tool available (multi-agent orchestration). Optional but recommended companion skills, used automatically when installed: `design-review`, `ux-audit`, `responsiveness-check`, `onboarding-ux`, `finding-duplicate-functions`, plus your stack's best-practices skills.
+
+## Use
+
+In any empty or freshly created project directory:
+
+```
+/makeit "a tool for freelance designers to collect client feedback in one place"
+```
+
+Answer the interview honestly — especially the non-goals. The quality of everything downstream is decided there.
+
+## Repository layout
+
+```
+SKILL.md          entry point: state detection + phase dispatch
+DESIGN.md         full design rationale and decisions
+phases/           one guide per pipeline phase (loaded on demand)
+templates/        feature, spec, and vision artifact templates
+scripts/          index generator (bun) + tests
+```
+
+## License
+
+[MIT](LICENSE)
