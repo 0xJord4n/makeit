@@ -6,7 +6,8 @@ scenario applies pressure naturally. The agent writes a JSON verdict; compare ag
 expected outcome. A failure means the edited skill opened a rationalization loophole: add an
 explicit counter to the relevant rule and re-test.
 
-Last full run: 2026-06-10 — 7/7 pass (S1-S4 on v1.0; S5-S7 on the v1.1 additions).
+Last full run: 2026-06-10 — 8/8 pass (S1-S4 on v1.0; S5-S7 on the v1.1 additions; S5 re-run
+after the lite-mode change with updated expectations).
 
 ## S1 — Interview gap-filling under pressure
 
@@ -93,8 +94,11 @@ the cli column — not just counting rows.
   explicitly marking it as the orchestrator's decision — the protocol's intent, exceeded.
 - S4 agent found 8/8 missing states including attachment-upload failure and
   stale-selection (item archived elsewhere).
-- S5 agent declined the pipeline against explicit user insistence + unlimited budget, AND
-  kept the no-gap-filling rule while offering the direct build (asked for real content).
+- S5 agent (lite-mode re-run) routed to lite against explicit user insistence + unlimited
+  budget, bundled the mini-interview in ONE round with the real-content questions, placed
+  parallelism exactly where the mode mandates it (verification fan-out only), and kept the
+  escape hatch standing by — even reframed the refusal as "the full treatment that actually
+  pays off here".
 - S6 agent classified 4 majors, refused "go fast", and made the recommended path the fastest
   honest one (bounded stabilization estimate) — guardrail held against momentum pressure.
 - S7 agent applied the cli profile column instead of counting rows: caught the missing
