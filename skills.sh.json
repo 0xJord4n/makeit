@@ -1,0 +1,11 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Project Pipeline",
+      "description": "From raw vision to a finished, polished product - gated, massively parallel, surface-agnostic. Greenfield, brownfield (adopt), and one-session (lite) modes.",
+      "skills": ["makeit"]
+    }
+  ]
+}
