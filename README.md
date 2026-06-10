@@ -1,5 +1,7 @@
 # makeit
 
+[![CI](https://github.com/0xJord4n/makeit/actions/workflows/ci.yml/badge.svg)](https://github.com/0xJord4n/makeit/actions/workflows/ci.yml)
+
 **A Claude Code skill that takes a project from raw vision to a finished, polished product — through a gated, massively parallel agent pipeline.**
 
 You give the vision. It interviews you like an uncompromising product manager, decomposes the product exhaustively, writes verified specs in parallel, implements slices in parallel git worktrees, de-slops the assembled codebase, and loops on polish until nothing is left to fix. You approve twice; everything else is autonomous.
@@ -74,12 +76,16 @@ Answer the interview honestly — especially the non-goals. The quality of every
 ## Repository layout
 
 ```
-SKILL.md          entry point: triage + state detection + phase dispatch
+SKILL.md          entry point: triage + state detection (state.json) + phase dispatch
 DESIGN.md         full design rationale and decisions
 surfaces.md       surface profiles: complete-state tables + polish audits per medium
-phases/           one guide per pipeline phase, incl. adopt mode (loaded on demand)
+LESSONS.md        skill-level learnings upstreamed from real runs
+phases/           one guide per pipeline phase, incl. lite + adopt modes
+workflows/        canned Workflow scripts for every fan-out phase (deterministic
+                  orchestration — invoked via scriptPath + args, never re-authored)
 templates/        feature, spec, and vision artifact templates
-scripts/          index generator (bun) + tests
+scripts/          index generator with graph validation (enums, deps, cycles)
+                  + workflow-script validator + tests
 tests/            pressure-scenario regression suite for the skill itself
 ```
 

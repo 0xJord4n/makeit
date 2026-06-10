@@ -60,10 +60,23 @@ two clean passes.
    - **Remaining debt, explicit** — what a reviewer should look at first
    - How to run, test, deploy
 
-Flip final statuses, regenerate the index one last time. The index IS the project's state of
-record. If milestones were defined, report against the current milestone only and name what
-the next milestone starts with.
+Flip final statuses, regenerate the index one last time, set `state.json` phase to `done`.
+The index IS the project's state of record. If milestones were defined, report against the
+current milestone only and name what the next milestone starts with.
+
+## Retro — the learning loop (mandatory, 5 minutes)
+
+After the final report, one short retro step:
+
+1. **What surprised us this run?** (a phase that looped too long, a spec that lied, a check
+   that caught nothing, an estimate that was off 3x) → append to the project's
+   `docs/makeit/LESSONS.md`
+2. **Does any lesson generalize beyond this project?** → propose upstreaming it to the skill
+   repo's `LESSONS.md`, and if it exposed a rule loophole, as a new pressure scenario in
+   `tests/pressure-scenarios.md`
+
+A lesson that stays in your head is lost at session end. Write it or it didn't happen.
 
 ## Exit Criteria
 
-Report delivered. The run (or milestone) is complete.
+Report delivered, retro written. The run (or milestone) is complete.
