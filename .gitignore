@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Node / Bun
+node_modules/
+bun.lockb
+
+# Local scratch
+*.local.md
+.scratch/
