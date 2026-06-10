@@ -2,6 +2,8 @@
 
 [![skills.sh](https://skills.sh/b/0xJord4n/makeit)](https://skills.sh/0xJord4n/makeit)
 [![CI](https://github.com/0xJord4n/makeit/actions/workflows/ci.yml/badge.svg)](https://github.com/0xJord4n/makeit/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/0xJord4n/makeit)](https://github.com/0xJord4n/makeit/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **From raw vision to a finished, polished product — through a gated, massively parallel agent pipeline.**
 
