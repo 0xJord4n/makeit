@@ -80,9 +80,92 @@ export function renderMarkdown(features: Feature[]): string {
   return md;
 }
 
+const VALID_TAGS = new Set(["must", "should", "wont", "out-of-scope"]);
+const VALID_STATUSES = new Set([
+  "inventoried",
+  "spec-ready",
+  "implementing",
+  "integrated",
+  "polished",
+  "failed",
+  "blocked-on-human",
+  "already-built",
+]);
+
+/**
+ * Validates the feature set: enum values, duplicate ids, dangling deps, and
+ * dependency cycles (a cycle would deadlock Phase 4 wave planning).
+ * Returns a list of error strings; empty means valid.
+ */
+export function validateFeatures(features: Feature[]): string[] {
+  const errors: string[] = [];
+  const byId = new Map<string, Feature>();
+
+  for (const f of features) {
+    if (byId.has(f.id)) {
+      errors.push(`duplicate id ${f.id}: ${byId.get(f.id)!.path} and ${f.path}`);
+    } else {
+      byId.set(f.id, f);
+    }
+    if (!VALID_TAGS.has(f.tag)) {
+      errors.push(`${f.id}: invalid tag "${f.tag}" (${f.path})`);
+    }
+    if (!VALID_STATUSES.has(f.status)) {
+      errors.push(`${f.id}: invalid status "${f.status}" (${f.path})`);
+    }
+  }
+
+  for (const f of features) {
+    for (const dep of f.deps) {
+      if (!byId.has(dep)) {
+        errors.push(`${f.id}: dep "${dep}" does not exist (${f.path})`);
+      }
+    }
+  }
+
+  // Cycle detection via iterative DFS (white/gray/black coloring)
+  const color = new Map<string, number>(); // 0 white, 1 gray, 2 black
+  const visit = (start: string) => {
+    const stack: Array<{ id: string; i: number; trail: string[] }> = [
+      { id: start, i: 0, trail: [start] },
+    ];
+    color.set(start, 1);
+    while (stack.length) {
+      const top = stack[stack.length - 1];
+      const deps = byId.get(top.id)?.deps.filter((d) => byId.has(d)) ?? [];
+      if (top.i < deps.length) {
+        const next = deps[top.i++];
+        const c = color.get(next) ?? 0;
+        if (c === 1) {
+          errors.push(`dependency cycle: ${[...top.trail, next].join(" -> ")}`);
+        } else if (c === 0) {
+          color.set(next, 1);
+          stack.push({ id: next, i: 0, trail: [...top.trail, next] });
+        }
+      } else {
+        color.set(top.id, 2);
+        stack.pop();
+      }
+    }
+  };
+  for (const id of byId.keys()) {
+    if ((color.get(id) ?? 0) === 0) visit(id);
+  }
+
+  return errors;
+}
+
+/**
+ * Validates, then writes both indexes. Throws on validation errors -
+ * a broken graph must never produce a plausible-looking index.
+ */
 export function generate(root: string): number {
   const docsDir = join(root, "docs/makeit");
   const features = collectFeatures(root);
+  const errors = validateFeatures(features);
+  if (errors.length) {
+    throw new Error(`feature validation failed:\n  ${errors.join("\n  ")}`);
+  }
   writeFileSync(
     join(docsDir, "features-index.json"),
     JSON.stringify(features, null, 2) + "\n",
@@ -92,7 +175,17 @@ export function generate(root: string): number {
 }
 
 if (import.meta.main) {
-  const root = process.argv[2] ?? process.cwd();
-  const n = generate(root);
-  console.log(`Indexed ${n} features.`);
+  const checkOnly = process.argv.includes("--check");
+  const root = process.argv.filter((a) => a !== "--check")[2] ?? process.cwd();
+  if (checkOnly) {
+    const errors = validateFeatures(collectFeatures(root));
+    if (errors.length) {
+      console.error(`INVALID:\n  ${errors.join("\n  ")}`);
+      process.exit(1);
+    }
+    console.log("Feature graph valid.");
+  } else {
+    const n = generate(root);
+    console.log(`Indexed ${n} features.`);
+  }
 }

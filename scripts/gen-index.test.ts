@@ -2,7 +2,12 @@ import { describe, expect, test, beforeAll, afterAll } from "bun:test";
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { generate, parseFrontmatter } from "./gen-index";
+import {
+  generate,
+  parseFrontmatter,
+  validateFeatures,
+  type Feature,
+} from "./gen-index";
 
 const FEATURE = (id: string, slice: string, deps = "[]") => `---
 id: ${id}
@@ -42,6 +47,52 @@ describe("parseFrontmatter", () => {
 
   test("returns empty object when no frontmatter", () => {
     expect(parseFrontmatter("# Just markdown")).toEqual({});
+  });
+});
+
+const feat = (id: string, deps: string[] = [], over: Partial<Feature> = {}): Feature => ({
+  id,
+  title: id,
+  tag: "must",
+  slice: "core",
+  status: "inventoried",
+  deps,
+  milestone: "",
+  path: `docs/makeit/features/${id}.md`,
+  ...over,
+});
+
+describe("validateFeatures", () => {
+  test("accepts a valid acyclic graph", () => {
+    expect(validateFeatures([feat("F-001"), feat("F-002", ["F-001"])])).toEqual([]);
+  });
+
+  test("rejects invalid tag and status", () => {
+    const errors = validateFeatures([
+      feat("F-001", [], { tag: "maybe" }),
+      feat("F-002", [], { status: "shipped" }),
+    ]);
+    expect(errors.some((e) => e.includes('invalid tag "maybe"'))).toBe(true);
+    expect(errors.some((e) => e.includes('invalid status "shipped"'))).toBe(true);
+  });
+
+  test("rejects duplicate ids and dangling deps", () => {
+    const errors = validateFeatures([
+      feat("F-001"),
+      feat("F-001"),
+      feat("F-002", ["F-999"]),
+    ]);
+    expect(errors.some((e) => e.includes("duplicate id F-001"))).toBe(true);
+    expect(errors.some((e) => e.includes('dep "F-999" does not exist'))).toBe(true);
+  });
+
+  test("detects dependency cycles", () => {
+    const errors = validateFeatures([
+      feat("F-001", ["F-002"]),
+      feat("F-002", ["F-003"]),
+      feat("F-003", ["F-001"]),
+    ]);
+    expect(errors.some((e) => e.includes("dependency cycle"))).toBe(true);
   });
 });
 
