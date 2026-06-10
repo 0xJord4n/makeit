@@ -2,7 +2,9 @@
 
 **A Claude Code skill that takes a project from raw vision to a finished, polished product — through a gated, massively parallel agent pipeline.**
 
-You give the vision. It interviews you like an uncompromising product manager, decomposes the product exhaustively, writes verified specs in parallel, implements slices in parallel git worktrees, de-slops the assembled codebase, and loops on UX polish until nothing is left to fix. You approve twice; everything else is autonomous.
+You give the vision. It interviews you like an uncompromising product manager, decomposes the product exhaustively, writes verified specs in parallel, implements slices in parallel git worktrees, de-slops the assembled codebase, and loops on polish until nothing is left to fix. You approve twice; everything else is autonomous.
+
+Works for **any kind of software** — web apps, mobile, CLIs, APIs, libraries, background services — via surface profiles (`surfaces.md`), and for **existing codebases** via adopt mode. It also knows when NOT to be used: one-session projects get redirected to lighter tools.
 
 ## Why
 
@@ -12,30 +14,34 @@ Agent-built projects fail in three repeatable ways:
 |---|---|---|
 | **Generic specs** | One-shot PRDs fill gaps with plausible boilerplate | Mandatory PM interview — the skill never invents what you didn't say; non-goals are required |
 | **Progressive loss** | Every doc generated from another doc is lossy compression | Single source of truth, append-only, referenced by path — never paraphrased |
-| **Never finished** | Specs never name polish, so agents stop at "compiles" | 5 mandatory UX states per screen, enforced DoD, and a polish loop that only stops after 2 clean passes |
+| **Never finished** | Specs never name polish, so agents stop at "compiles" | Profile-defined complete states per unit (screen, command, endpoint, export, job), enforced DoD, and a polish loop that only stops after 2 clean passes |
 
 Plus the slop unique to parallel agents (N worktrees reinventing the same helper) — handled by a dedicated deslopify phase that runs the moment the codebase is assembled.
 
 ## Pipeline
 
 ```
-/makeit "your vision in a few sentences"
+/makeit "your vision in a few sentences"     (or: adopt an existing codebase)
 
+P0  Triage                is makeit the right tool? (too small → /spec; brownfield → adopt)
+[P-adopt]                 brownfield only: abbreviated interview, contracts extracted
+                          from code, coherence audit with a stop-or-stabilize guardrail
 P1  PM Interview          8 sections, ~10-20 min, one question at a time
-P2  Foundations           VISION.md + architecture + compilable contracts
-P2.5 Decomposition        parallel fan-out + completeness critic
-🚪 GATE 1                 you approve scope (vision, contracts, feature inventory)
+P2  Foundations           VISION.md + architecture + compilable contracts + seed data
+P2.5 Decomposition        parallel fan-out + completeness critic + human-task detection
+🚪 GATE 1                 you approve scope (vision, contracts, inventory, human tasks)
+                          [+ optional prototype checkpoint for design-first products]
 P3  Specs                 parallel writers + adversarial cross-verification
 🚪 GATE 2                 you resolve open points, approve
 P4  Implementation        dependency waves, one agent per slice, isolated worktrees
 P4i Integration           sequential merges, full suite between each
 P4.5 Deslopify            semantic duplicates, stack best practices, simplify
-P5  UX Polish             design review + UX audit (your persona) + responsiveness
-                          + onboarding — loop until 2 passes with zero must-fix
-P6  Final E2E             full browser journeys + final report
+P5  Polish                profile-driven loop (UX audits for UI, DX audits for
+                          CLI/API/library, ops audits for services) — until 2 clean passes
+P6  Final verification    full journeys per surface + final report
 ```
 
-Two human checkpoints. Everything else runs autonomously, with cost estimates shown before each fan-out.
+Two human checkpoints. Everything else runs autonomously, with cost estimates shown before each fan-out. Mid-run vision changes go through change control (pause → impact analysis → ADR → resume), never absorbed silently.
 
 ## Key mechanics
 
@@ -66,11 +72,13 @@ Answer the interview honestly — especially the non-goals. The quality of every
 ## Repository layout
 
 ```
-SKILL.md          entry point: state detection + phase dispatch
+SKILL.md          entry point: triage + state detection + phase dispatch
 DESIGN.md         full design rationale and decisions
-phases/           one guide per pipeline phase (loaded on demand)
+surfaces.md       surface profiles: complete-state tables + polish audits per medium
+phases/           one guide per pipeline phase, incl. adopt mode (loaded on demand)
 templates/        feature, spec, and vision artifact templates
 scripts/          index generator (bun) + tests
+tests/            pressure-scenario regression suite for the skill itself
 ```
 
 ## License

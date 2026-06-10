@@ -191,12 +191,26 @@ makeit/
 
 Progressive disclosure: SKILL.md stays small (state detection + dispatch); each phase file is loaded only when it executes.
 
-## 8. Out of scope (v1)
+## 8. v1.1 additions
+
+The following moved from "out of scope" or "web-only" into the skill:
+
+- **Surface profiles** (`surfaces.md`) — web-ui, mobile, cli, api, library, service. The "5 UX states" generalize to profile-defined complete-state tables; the polish loop selects profile-specific audits (UX for UI, DX for cli/api/library, ops for services).
+- **Adopt mode** (`phases/09-adopt.md`) — brownfield support: abbreviated interview, contracts extracted from the real code, feature inventory with `already-built` status, and a coherence-audit guardrail (major incoherences → stop and offer stabilize / proceed-with-documented-risk / abort).
+- **Entry triage** — the skill declines one-session projects (redirect to /spec) and out-of-domain work (ML training, hardware).
+- **Human setup tasks** — `HUMAN-TASKS.md` checklist (external accounts, keys, domains) surfaced at Gate 1; slices block on `blocked-on-human` without blocking their wave.
+- **Change control** — mid-run vision changes: pause → impact analysis from the index → digest → ADR → resume.
+- **Milestones** — inventories over ~60 features split into milestone passes at Gate 1 (`milestone` frontmatter field).
+- **Optional prototype checkpoint** — design-first products see key screens between Gate 1 and specs.
+- **Untyped stacks** — strict type-checker config or generated contract tests restore "contract violation = build error".
+- **Seed data + test accounts** in foundations — the polish loop audits a populated, authenticated app.
+- **Security & compliance** — interview flag enrolls a cross-cutting decomposition agent, a spec lens, and a final security pass.
+
+## 8b. Still out of scope
 
 - Simultaneous multi-project runs, multi-human teams
 - Specific deployment backends (existing deploy skills take over)
-- Resuming an existing project (the skill targets greenfield; improving existing code has other tools)
-- Mobile: supported through stack agnosticism, but the P5 polish loop is web-first (installed UX audit skills are browser-based) — documented limitation
+- ML/data-science training pipelines, hardware/embedded (declined at triage)
 
 ## 9. Known risks & mitigations
 
