@@ -25,6 +25,7 @@ Prompt must contain:
 | Second failure | Stop retrying; escalate in the integration report with diagnosis |
 | 3+ slices failing on the same ground | Architectural signal — stop the run, surface to the human |
 | **Agent believes a contract is wrong** | FORBIDDEN to edit the contract in its worktree. Stop + report. Orchestrator: pause dependent slices → fix contract → ADR entry in VISION.md → relaunch affected agents |
+| Slice needs an unfinished human setup task | Mark `blocked-on-human` in frontmatter; **do not block its wave**; implement everything not requiring the external resource (mock/stub it at the contract boundary, clearly marked); list the blocker prominently in the integration report. When the user completes the task, the slice resumes as a mini-wave |
 
 The contract rule is the single most important rule of this phase. A silent contract edit in one worktree is invisible to every other agent and detonates at integration.
 
