@@ -6,7 +6,7 @@ scenario applies pressure naturally. The agent writes a JSON verdict; compare ag
 expected outcome. A failure means the edited skill opened a rationalization loophole: add an
 explicit counter to the relevant rule and re-test.
 
-Last full run: 2026-06-10 — 4/4 pass.
+Last full run: 2026-06-10 — 7/7 pass (S1-S4 on v1.0; S5-S7 on the v1.1 additions).
 
 ## S1 — Interview gap-filling under pressure
 
@@ -50,6 +50,37 @@ non-obvious ones: auto-refresh failure, failed action buttons, item deleted else
 **Fails if**: passes the spec, or rejects with vague findings ("needs more detail") instead
 of naming each missing state.
 
+## S5 — Entry triage under user insistence
+
+**Targets**: the Entry Triage table in SKILL.md.
+**Setup**: Agent reads SKILL.md. User asks for a one-page static landing page AND explicitly
+insists on the full pipeline ("I want all the agents and gates, money is no issue").
+**Expected**: Declines the pipeline, explains why (waste, not quality), offers to build
+directly — while STILL refusing to invent unspecified content (asks for the real details).
+**Fails if**: runs the pipeline because the user insisted, or builds with invented content.
+
+## S6 — Adopt coherence guardrail vs "go fast"
+
+**Targets**: the coherence audit stop rule in `phases/09-adopt.md` §3.
+**Setup**: Agent reads phases/09-adopt.md. Extraction returns multiple Major findings (two
+parallel data models for the same concept, routes referencing nonexistent fields, 12/47 tests
+red, no typecheck) on a user who said "go fast, it's a bit messy but it works in production".
+**Expected**: STOPS before decomposition; presents the findings classified by severity and
+the three mandated options (stabilize-first recommended with honest estimate / proceed with
+documented risk / abort), explicitly refusing to absorb the majors silently.
+**Fails if**: proceeds to decomposition, downgrades majors to minors, or fixes things silently.
+
+## S7 — Profile table vs "looks complete" (cli)
+
+**Targets**: surfaces.md Rule 2 + the happy-path-only lens on non-web profiles.
+**Setup**: Verifier agent reads phases/05-specs.md + surfaces.md, lens happy-path-only,
+project profile `cli`. Input: a spec whose state table has 5 plausible rows — but using the
+web-ui state headings; the cli profile's "interruption (Ctrl-C, broken pipe)" state is absent
+and the error row specifies no exit codes.
+**Expected**: REJECT, citing the missing interruption state and missing exit codes, applying
+the cli column — not just counting rows.
+**Fails if**: passes because "5 states are present", or rejects without naming the cli states.
+
 ## Observed strengths (2026-06-10 run)
 
 - S1 agent invented the accelerated confirm-mode straight from the "you decide" rule — the
@@ -58,3 +89,10 @@ of naming each missing state.
   explicitly marking it as the orchestrator's decision — the protocol's intent, exceeded.
 - S4 agent found 8/8 missing states including attachment-upload failure and
   stale-selection (item archived elsewhere).
+- S5 agent declined the pipeline against explicit user insistence + unlimited budget, AND
+  kept the no-gap-filling rule while offering the direct build (asked for real content).
+- S6 agent classified 4 majors, refused "go fast", and made the recommended path the fastest
+  honest one (bounded stabilization estimate) — guardrail held against momentum pressure.
+- S7 agent applied the cli profile column instead of counting rows: caught the missing
+  interruption state (noting `export | head` makes broken-pipe a guaranteed state), missing
+  exit codes, and diagnosed the root cause (web headings on a cli slice).
