@@ -142,14 +142,17 @@ Full browser journeys + entire suite. Final report: delivered features vs index,
 
 ```
 docs/makeit/
+├── state.json                # run-level state: mode, phase, gates, consent —
+│                             #   authoritative for dispatch (ADR tells the story)
 ├── interview.md              # verbatim, append-only
 ├── VISION.md                 # append-only + ADR
 ├── ARCHITECTURE.md
+├── HUMAN-TASKS.md            # what only the user can do (accounts, keys, domains)
 ├── FEATURES.md               # GENERATED INDEX — never hand-edited
 ├── features-index.json       # same index, for agents/scripts (jq)
 ├── features/
 │   └── F-xxx-<slug>.md       # MD + YAML frontmatter (id, title, tag,
-│                             #   slice, status, deps) + prose body
+│                             #   slice, status, deps, milestone) + prose body
 └── specs/
     └── <slice>.md
 ```

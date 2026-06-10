@@ -30,19 +30,35 @@ When in doubt between lite and full, ask one question: "Roughly how many distinc
 
 ## State Detection
 
-On invocation with an existing `docs/makeit/`:
+Run-level state lives in **`docs/makeit/state.json`** — the single machine-readable record,
+authoritative for dispatch. The ADR entries in VISION.md tell the human story of the same
+events; if they ever disagree, state.json wins for routing and the discrepancy is reported.
 
-| State | Action |
-|---|---|
-| `interview.md` exists, no `VISION.md` | Resume Phase 1 (`phases/01-interview.md`) |
-| `VISION.md` exists, no `features/` | Resume Phase 2 (`phases/02-foundations.md`) |
-| `features/` exists, Gate 1 not approved | Resume Phase 2.5 / Gate 1 (`phases/03-decomposition.md`, `phases/04-gates.md`) |
-| Gate 1 approved, specs incomplete | Resume Phase 3 (`phases/05-specs.md`) |
-| Gate 2 approved, slices not all `integrated` | Resume Phase 4 (`phases/06-implementation.md`) |
-| All integrated, deslopify not done | Resume Phase 4.5 (`phases/07-deslopify.md`) |
-| Deslopify done, polish loop open | Resume Phase 5/6 (`phases/08-polish.md`) |
+```json
+{
+  "mode": "full | lite | adopt",
+  "phase": "P1 | P2 | P2.5 | gate1 | prototype | P3 | gate2 | P4 | P4.5 | P5 | P6 | done",
+  "surfaces": ["web-ui"],
+  "compliance": false,
+  "designFirst": false,
+  "milestone": null,
+  "gates": {
+    "gate1": { "approved": "YYYY-MM-DD", "inScope": 42, "cut": 5 },
+    "gate2": null
+  },
+  "modelConsent": { "asked": true, "foundationsModel": "session" }
+}
+```
 
-Gate approvals live as ADR entries in VISION.md; per-feature statuses live in feature frontmatter and the generated `FEATURES.md` (never hand-edit it; run `scripts/gen-index.ts`). State lives 100% in files: any session can resume by reading the index.
+**The orchestrator updates state.json at every phase transition, gate decision, and consent
+answer** — in the same step as the matching ADR entry. On invocation: read state.json, dispatch
+to the `phase` it names. If state.json is missing but `docs/makeit/` exists (legacy run or
+manual deletion), derive the phase from file presence (interview.md → VISION.md → features/ →
+specs/ → feature statuses), then write state.json before proceeding.
+
+Per-feature statuses stay in feature frontmatter and the generated `FEATURES.md` / 
+`features-index.json` (never hand-edit; run `scripts/gen-index.ts`, which validates the
+dependency graph — enums, dangling deps, cycles — and refuses to index a broken one).
 
 Feature statuses: `inventoried → spec-ready → implementing → integrated → polished`, plus `failed`, `blocked-on-human` (waiting on a human setup task), and `already-built` (adopt mode).
 
