@@ -8,10 +8,14 @@ Build the dependency graph from spec/feature frontmatter `deps`. Resolve into **
 
 ## Implementation Agents (Workflow, `isolation: 'worktree'`, one per slice)
 
+Run via the canned script: `Workflow {scriptPath: "<skill>/workflows/implementation.js", args: {waves, ...}}`
+(args contract in the script header). The script encodes worktree isolation, retry-once,
+blocked-on-human stubbing, the contract-block halt, and sequential integration. On a contract
+block: fix the contract per the protocol below, then resume with `resumeFromRunId`.
 **Model routing: implementation agents run on `sonnet`** (SKILL.md Model Routing) — the spec,
 contracts, and DoD do the framing; the integration suite is the net.
 
-Prompt must contain:
+The script's agent prompts contain:
 
 - Path to ITS spec + the feature files it covers (read, don't paraphrase)
 - Contracts: **read-only**

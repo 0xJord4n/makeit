@@ -37,12 +37,11 @@ not as a generic tester. On non-UI surfaces the persona is the consuming develop
 
 ## Fix Loop
 
-```
-audits → dedupe findings → rank (must-fix / should-fix / nice)
-   → fix agents in parallel (with the deslopify report in their prompts)
-   → full suite + re-run the audits that produced must-fixes
-   → loop
-```
+Run via the canned script: `Workflow {scriptPath: "<skill>/workflows/polish.js", args: {auditors, ...}}`
+— you build the auditor prompts from the table above (per profile, with the persona, against
+the running artifact) and pass them in; the script encodes the loop. Note: the script uses ONE
+fix agent per round — auditors run against the integrated tree, and parallel fixers on
+overlapping files would conflict. Verification parallelizes; mutation does not.
 
 **Stop condition: 2 consecutive passes with zero must-fix findings.** Not "looks good now" —
 two clean passes.

@@ -1,6 +1,8 @@
 # Phase 3 — Parallel Specs + Adversarial Verification
 
-Workflow fan-out: one writer agent per slice, then adversarial cross-verification per spec.
+Fan-out via the canned script: `Workflow {scriptPath: "<skill>/workflows/specs.js", args: {...}}`
+(args contract in the script header — slices, profiles, paths, compliance flag). The script
+encodes write → adversarial lenses → one rewrite round → escalate; do not re-author it.
 **Model routing: writers and verifiers run on `sonnet`** (SKILL.md Model Routing; never above
 the session ceiling). Specs are written against frozen contracts — that is what makes parallel
 writing safe.

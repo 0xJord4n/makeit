@@ -1,8 +1,6 @@
 # Phase 2.5 — Exhaustive Decomposition
 
-Parallel fan-out via the `Workflow` tool. **Model routing: all agents in this phase run on
-`sonnet`** (see SKILL.md Model Routing — high volume, tightly framed; session-model ceiling
-applies). Goal: an inventory so complete that nothing is discovered mid-implementation. The features everyone misses are never the main jobs — they are the implicit ones (forgot-password, delete-my-account, the confirmation email, the settings page). The cross-cutting agents exist for exactly those.
+Parallel fan-out via the canned script: `Workflow {scriptPath: "<skill>/workflows/decomposition.js", args: {...}}` — the args contract is documented in the script header. Do NOT re-author the orchestration from prose; the script encodes the sweep + critic loop deterministically. **Model routing: all agents run on `sonnet`** (see SKILL.md Model Routing; session-model ceiling applies). Goal: an inventory so complete that nothing is discovered mid-implementation. The features everyone misses are never the main jobs — they are the implicit ones (forgot-password, delete-my-account, the confirmation email, the settings page). The cross-cutting agents exist for exactly those.
 
 ## Fan-Out Structure
 
