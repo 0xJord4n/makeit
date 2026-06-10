@@ -21,12 +21,12 @@ Before anything, assess whether makeit is the right tool:
 
 | Situation | Action |
 |---|---|
-| Project fits in one session (single page/script/component, one job, no persistent data) | **Decline and redirect**: "makeit is oversized for this — use /spec or build it directly." A pipeline with 2 gates and dozens of agents on a landing page wastes the user's money. |
+| Project fits in one session (single page/script/component, 1-2 jobs, no persistent data) | **Lite mode** → `phases/00-lite.md`: mini-interview (one bundled round), direct build, parallel check fan-out, one clean re-check. The full pipeline's gates/contracts/worktrees would be pure overhead here — lite mode keeps the quality DNA, drops the ceremony. |
 | Existing codebase, no `docs/makeit/` | Offer **adopt mode** → `phases/09-adopt.md` |
 | Empty/new project, real product scope | Full pipeline → Phase 1 |
 | `docs/makeit/` exists | Resume → state detection below |
 
-When in doubt between "too small" and "real scope", ask one question: "Roughly how many distinct things must a user be able to do? (1-2 → /spec is faster; 3+ → makeit)".
+When in doubt between lite and full, ask one question: "Roughly how many distinct things must a user be able to do? (1-2 → lite; 3+ → full pipeline)". Lite mode has an upward escape hatch: if scope grows mid-build, stop and propose the full pipeline.
 
 ## State Detection
 
@@ -76,6 +76,7 @@ If the user changes scope/vision after a gate: **pause the running phase** → i
 
 | Phase | File | Loads when |
 |---|---|---|
+| Lite mode | `phases/00-lite.md` | One-session project detected at triage |
 | Adopt (brownfield) | `phases/09-adopt.md` | Existing codebase, no docs/makeit/ |
 | P1 Interview | `phases/01-interview.md` | New run or interview incomplete |
 | P2 Foundations | `phases/02-foundations.md` | Interview done |
@@ -92,7 +93,8 @@ Surface profiles: `surfaces.md`. Templates: `templates/`. Index generator: `scri
 
 | Mistake | Correction |
 |---|---|
-| Running the full pipeline on a one-session project | Entry triage exists to say "use /spec" — saying no is part of the job |
+| Running the full pipeline on a one-session project | Lite mode exists for exactly this — same quality DNA, none of the ceremony |
+| Stretching lite mode around a growing scope | Escape hatch: stop, propose the full pipeline — lite is for one-session scope only |
 | Assuming web: "5 UX states per screen" on a CLI | The profile's state table applies — per command/endpoint/symbol/job |
 | Writing specs before Gate 1 approval | Gate 1 exists to cut scope before spec tokens are spent |
 | One giant FEATURES.md with full detail | Detail lives in `features/F-xxx-*.md`; the index stays scannable |

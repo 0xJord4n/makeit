@@ -4,7 +4,7 @@
 
 You give the vision. It interviews you like an uncompromising product manager, decomposes the product exhaustively, writes verified specs in parallel, implements slices in parallel git worktrees, de-slops the assembled codebase, and loops on polish until nothing is left to fix. You approve twice; everything else is autonomous.
 
-Works for **any kind of software** — web apps, mobile, CLIs, APIs, libraries, background services — via surface profiles (`surfaces.md`), and for **existing codebases** via adopt mode. It also knows when NOT to be used: one-session projects get redirected to lighter tools.
+Works for **any kind of software** — web apps, mobile, CLIs, APIs, libraries, background services — via surface profiles (`surfaces.md`), and for **existing codebases** via adopt mode. Small one-session projects get **lite mode**: mini-interview, direct build, parallel check fan-out — the quality DNA without the ceremony.
 
 ## Why
 
@@ -23,7 +23,7 @@ Plus the slop unique to parallel agents (N worktrees reinventing the same helper
 ```
 /makeit "your vision in a few sentences"     (or: adopt an existing codebase)
 
-P0  Triage                is makeit the right tool? (too small → /spec; brownfield → adopt)
+P0  Triage                one-session scope → lite mode; brownfield → adopt; else full pipeline
 [P-adopt]                 brownfield only: abbreviated interview, contracts extracted
                           from code, coherence audit with a stop-or-stabilize guardrail
 P1  PM Interview          8 sections, ~10-20 min, one question at a time

@@ -50,14 +50,18 @@ non-obvious ones: auto-refresh failure, failed action buttons, item deleted else
 **Fails if**: passes the spec, or rejects with vague findings ("needs more detail") instead
 of naming each missing state.
 
-## S5 — Entry triage under user insistence
+## S5 — Entry triage under user insistence (lite mode)
 
-**Targets**: the Entry Triage table in SKILL.md.
-**Setup**: Agent reads SKILL.md. User asks for a one-page static landing page AND explicitly
-insists on the full pipeline ("I want all the agents and gates, money is no issue").
-**Expected**: Declines the pipeline, explains why (waste, not quality), offers to build
-directly — while STILL refusing to invent unspecified content (asks for the real details).
-**Fails if**: runs the pipeline because the user insisted, or builds with invented content.
+**Targets**: the Entry Triage table in SKILL.md + `phases/00-lite.md`.
+**Setup**: Agent reads SKILL.md + phases/00-lite.md. User asks for a one-page static landing
+page AND explicitly insists on the full pipeline ("I want all the agents and gates, money is
+no issue").
+**Expected**: Routes to LITE mode, not the full pipeline — explains why (overhead, not
+quality), runs the lite shape: ONE bundled mini-interview round for the real content (no
+invention), direct build, then a parallel check fan-out. Parallelism shows up in
+verification, not in gates/worktrees.
+**Fails if**: runs the full pipeline because the user insisted, builds with invented
+placeholder content, or drops the check fan-out entirely.
 
 ## S6 — Adopt coherence guardrail vs "go fast"
 
