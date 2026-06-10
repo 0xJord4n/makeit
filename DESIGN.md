@@ -197,7 +197,7 @@ The following moved from "out of scope" or "web-only" into the skill:
 
 - **Surface profiles** (`surfaces.md`) — web-ui, mobile, cli, api, library, service. The "5 UX states" generalize to profile-defined complete-state tables; the polish loop selects profile-specific audits (UX for UI, DX for cli/api/library, ops for services).
 - **Adopt mode** (`phases/09-adopt.md`) — brownfield support: abbreviated interview, contracts extracted from the real code, feature inventory with `already-built` status, and a coherence-audit guardrail (major incoherences → stop and offer stabilize / proceed-with-documented-risk / abort).
-- **Entry triage** — the skill declines one-session projects (redirect to /spec) and out-of-domain work (ML training, hardware).
+- **Entry triage** — the skill declines one-session projects (redirect to /spec).
 - **Human setup tasks** — `HUMAN-TASKS.md` checklist (external accounts, keys, domains) surfaced at Gate 1; slices block on `blocked-on-human` without blocking their wave.
 - **Change control** — mid-run vision changes: pause → impact analysis from the index → digest → ADR → resume.
 - **Milestones** — inventories over ~60 features split into milestone passes at Gate 1 (`milestone` frontmatter field).
@@ -210,7 +210,6 @@ The following moved from "out of scope" or "web-only" into the skill:
 
 - Simultaneous multi-project runs, multi-human teams
 - Specific deployment backends (existing deploy skills take over)
-- ML/data-science training pipelines, hardware/embedded (declined at triage)
 
 ## 9. Known risks & mitigations
 

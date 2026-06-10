@@ -22,7 +22,6 @@ Before anything, assess whether makeit is the right tool:
 | Situation | Action |
 |---|---|
 | Project fits in one session (single page/script/component, one job, no persistent data) | **Decline and redirect**: "makeit is oversized for this — use /spec or build it directly." A pipeline with 2 gates and dozens of agents on a landing page wastes the user's money. |
-| ML/data-science training pipelines, hardware/embedded | Decline — out of scope, say so plainly |
 | Existing codebase, no `docs/makeit/` | Offer **adopt mode** → `phases/09-adopt.md` |
 | Empty/new project, real product scope | Full pipeline → Phase 1 |
 | `docs/makeit/` exists | Resume → state detection below |
